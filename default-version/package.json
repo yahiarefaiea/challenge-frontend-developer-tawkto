@@ -6,7 +6,11 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.js --color"
+    "start": "webpack-dev-server --config webpack.config.js --color",
+    "build": "webpack --mode production && npm run copy-files && npm run replace-js-path",
+    "copy-files": "cp -R public/* dist/",
+    "replace-js-path": "sed -i 's/dist\\/bundle.js/bundle.js/g' dist/index.html",
+    "deploy": "surge ./dist tawkto230424.surge.sh"
   },
   "devDependencies": {
     "css-loader": "^3.4.1",
