@@ -18,6 +18,7 @@
 <script>
 import {formatDateFromNow} from '../utils'
 import slugify from 'slugify'
+import unorm from 'unorm'
 
 export default {
   props: {
@@ -34,7 +35,14 @@ export default {
     }
   },
   methods: {
-    createSlug: (title, id) => `${slugify(title, {lower: true})}-${id}`
+    createSlug: (title, id) => {
+      const normalizedTitle = unorm.nfkd(title)
+      const slug = slugify(normalizedTitle, {
+        lower: true,
+        remove: /[^a-zA-Z0-9 -]/g
+      })
+      return `${slug}-${id}`
+    }
   }
 }
 </script>
