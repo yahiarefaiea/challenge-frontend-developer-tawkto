@@ -27,7 +27,7 @@
 import _ from 'lodash'
 import axios from 'axios'
 import CategoryCard from '../components/CategoryCard.vue'
-import {eventBus} from '../utils'
+import {eventBus, prodMode} from '../utils'
 
 export default {
   components: {
@@ -57,7 +57,8 @@ export default {
       ))
     },
     async fetchCategories() {
-      axios.get('/api/categories')
+      const suffix = prodMode ? '.json' : ''
+      axios.get(`/api/categories${suffix}`)
         .then(response => {
           this.items = this.filterItems(response.data)
           this.items = this.orderItems(this.items)

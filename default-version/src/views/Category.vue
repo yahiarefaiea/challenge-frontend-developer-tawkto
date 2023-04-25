@@ -37,6 +37,7 @@ import axios from 'axios'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import CategoryCard from '../components/CategoryCard.vue'
 import ArticleCard from '../components/ArticleCard.vue'
+import {prodMode} from '../utils'
 
 export default {
   components: {
@@ -73,14 +74,16 @@ export default {
       return path.split('-').reverse()[0]
     },
     async fetchCategoryById(id) {
-      axios.get('/api/categories')
+      const suffix = prodMode ? '.json' : ''
+      axios.get(`/api/categories${suffix}`)
         .then(response => {
           this.category = response.data.filter(item => item.id === id)[0]
         })
         .catch(error => ({error: JSON.stringify(error)}))
     },
     async fetchArticles() {
-      axios.get('/api/category/')
+      const suffix = prodMode ? '.json' : '/'
+      axios.get(`/api/category${suffix}`)
         .then(response => {
           this.articles = response.data.filter(item => item.status === 'published')
         })
