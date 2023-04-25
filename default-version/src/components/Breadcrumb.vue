@@ -60,7 +60,6 @@ export default {
 }
 
 .breadcrumb ul {
-  display: flex;
   li {
     @extend .link;
     color: $text-gray;

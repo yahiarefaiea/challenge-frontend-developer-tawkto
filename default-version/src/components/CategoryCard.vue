@@ -49,12 +49,14 @@ export default {
   text-decoration: none;
   background-color: $category-card--bg-normal-color;
   > .block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: $category-card--padding-y $category-card--padding-x;
+    text-align: center;
     &:not(:first-child) {
       border-top: $category-card--border-size solid $category-card--border-color;
+    }
+    > .text-primary,
+    > .text-gray {
+      display: block;
     }
   }
   img {

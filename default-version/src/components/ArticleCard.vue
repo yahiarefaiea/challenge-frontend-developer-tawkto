@@ -24,9 +24,9 @@ export default {
 @import '../scss/_variables.scss';
 
 .article-card {
-  display: flex;
+  display: block;
   position: relative;
-  flex-direction: column;
+  width: 100%;
   padding: $article-card--padding-y $article-card--padding-x;
   border: $article-card--border-size solid $article-card--border-color;
   border-radius: $article-card--border-radius;

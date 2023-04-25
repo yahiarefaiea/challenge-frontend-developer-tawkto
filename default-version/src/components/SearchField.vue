@@ -14,11 +14,10 @@
     :action="submitSearchQuery"
     :isIcon="true"
     :cta="'search'"
+    class="search-button"
     :style="{
       borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-      flex: '80px',
-      flexShrink: 0
+      borderBottomLeftRadius: 0
     }"
   />
 </div>
@@ -55,9 +54,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$search-button--width: 80px;
+
 #search-field {
-  display: flex;
+  position: relative;
   max-width: 720px;
   margin: 0 auto;
+  padding-right: $search-button--width;
+  .search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $search-button--width;
+  }
 }
 </style>

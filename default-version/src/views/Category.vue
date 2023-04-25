@@ -4,19 +4,27 @@
     <tawk-breadcrumb :items="breadcrumbItems" :style="breadcrumbStyle" />
 
     <div class="grid-view">
-      <tawk-category-card
-        v-if="!isEmpty(category)"
-        :item="category"
-        :type="'expanded'"
-        :style="categoryCardStyle"
-      />
+      <div class="grid-container-fix">
+        <div class="grid-item">
+          <tawk-category-card
+            v-if="!isEmpty(category)"
+            :item="category"
+            :type="'expanded'"
+          />
+        </div>
 
-      <div class="list-view">
-        <tawk-article-card
-          v-for="(article, index) in articles"
-          :key="`${kebabCase(article.title)}-${index}`"
-          :item="article"
-        />
+        <div
+          class="list-view grid-item"
+          :style="listFixStyle"
+        >
+          <div
+            v-for="(article, index) in articles"
+            :key="`${kebabCase(article.title)}-${index}`"
+            class="list-item"
+          >
+            <tawk-article-card :item="article" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -45,10 +53,10 @@ export default {
   }),
   computed: {
     breadcrumbStyle: () => {
-      return {flex: 1, marginTop: `${21 - 60}px`, marginBottom: '22px'}
+      return {marginTop: `${21 - 60}px`, marginBottom: '22px'}
     },
-    categoryCardStyle: () => {
-      return {flex: `calc(${100/3}% - 20px)`, flexGrow: 0}
+    listFixStyle: () => {
+      return {width: `${100/3*2}%`}
     }
   },
   watch: {
@@ -101,10 +109,28 @@ export default {
 <style lang="scss">
 @import '../scss/_variables.scss';
 
+// my apologies for the inconvenience...
+// the rule below should've been somewhere as shared styles.
+// the reason to keep it here is to @extend it within list view.
+/* start of block */
+.clearfix:before,
+.clearfix:after {
+  content: ' ';
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+/* end of block */
+
 .section .list-view {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: $container-grid--gap;
+  @extend .clearfix;
+  margin-top: -($container-grid--gap*0.5);
+  margin-bottom: -($container-grid--gap*0.5);
+  > .list-item {
+    float: left;
+    width: 100%;
+    padding: $container-grid--gap*0.5 0;
+  }
 }
 </style>

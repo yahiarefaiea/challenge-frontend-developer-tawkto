@@ -7,13 +7,18 @@
     <p v-else-if="queryFilteredItems && queryFilteredItems.length === 0" class="fallback">
       {{`No items were found matching “${this.searchQuery}”.`}}
     </p>
-    <tawk-category-card
+    <div
       v-else-if="queryFilteredItems && queryFilteredItems.length > 0"
-      v-for="item in queryFilteredItems"
-      :key="item.id"
-      :item="item"
-      :style="categoryCardStyle"
-    />
+      class="grid-container-fix"
+    >
+      <div
+        v-for="item in queryFilteredItems"
+        :key="item.id"
+        class="grid-item"
+      >
+        <tawk-category-card :item="item" />
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -33,11 +38,6 @@ export default {
     queryFilteredItems: null,
     searchQuery: ''
   }),
-  computed: {
-    categoryCardStyle: () => {
-      return {flex: `calc(${100/3}% - 20px)`, flexGrow: 0}
-    }
-  },
   watch: {
     searchQuery() {
       this.filterItemsBasedOnQuery()
@@ -83,7 +83,6 @@ export default {
 @import '../scss/_variables.scss';
 
 .fallback {
-  flex: 1;
   color: $text-gray;
 }
 </style>
@@ -98,6 +97,20 @@ p {
   color: $text-black;
 }
 
+// my apologies for the inconvenience...
+// the rule below should've been somewhere as shared styles.
+// the reason to keep it here is to @extend it within grid view.
+/* start of block */
+.clearfix:before,
+.clearfix:after {
+  content: ' ';
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+/* end of block */
+
 .section {
   background-color: $light-gray;
   .container {
@@ -107,11 +120,16 @@ p {
     padding: $container--padding-y 0;
   }
   .grid-view {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: $container-grid--gap;
-    transform: translateX($container-grid--gap*0.5);
+    @extend .clearfix;
+    .grid-container-fix {
+      @extend .clearfix;
+      margin: 0 -($container-grid--gap*0.5);
+      > .grid-item {
+        float: left;
+        width: (100%/3);
+        padding: $container-grid--gap*0.5;
+      }
+    }
   }
   .grid-view, .container.grid-view {
     max-width: $container-grid--width;
